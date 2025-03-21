@@ -493,7 +493,7 @@ body { font-family: 'Inter', sans-serif; }
 document.addEventListener('DOMContentLoaded', function() {
 const skillsChart = echarts.init(document.getElementById('skillsChart'));
 const skillsOption = {
-  animation: false,
+  animation: true,
   radar: {
     shape: 'circle',
     indicator: [
@@ -503,24 +503,25 @@ const skillsOption = {
       { name: 'Software & Platforms', max: 100 }
     ],
     axisName: {
-      color: '#64748b',
-      fontSize: 12
+      color: '#475569',
+      fontSize: 13,
+      fontWeight: 'bold'
     },
     splitArea: {
       show: true,
       areaStyle: {
-        color: ['#fff', '#f8fafc']
+        color: ['rgba(203,213,225,0.3)', 'rgba(148,163,184,0.3)']
       }
     },
     splitLine: {
       show: true,
       lineStyle: {
-        color: '#e2e8f0'
+        color: '#94a3b8'
       }
     },
     axisLine: {
       lineStyle: {
-        color: '#e2e8f0'
+        color: '#94a3b8'
       }
     }
   },
@@ -529,15 +530,19 @@ const skillsOption = {
     data: [{
       value: [95, 90, 85, 88],
       name: 'Skills',
-      symbol: 'none',
+      symbol: 'circle',
+      symbolSize: 6,
       lineStyle: {
-        width: 2
+        width: 2,
+        color: '#2563eb'
       },
       areaStyle: {
-        color: 'rgba(37, 99, 235, 0.1)'
+        color: 'rgba(37, 99, 235, 0.15)'
       },
       itemStyle: {
-        color: '#2563eb'
+        color: '#2563eb',
+        borderColor: '#1e40af',
+        borderWidth: 2
       }
     }]
   }]

@@ -534,6 +534,7 @@ body { font-family: 'Inter', sans-serif; }
 <span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm">Google Search Console</span>
 <span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm">SPSS</span>
 <span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm">Hubspot</span>
+<span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm">GitHub</span>
 </div>
 </div>
 </div>
@@ -639,61 +640,40 @@ body { font-family: 'Inter', sans-serif; }
 <script>
 document.addEventListener('DOMContentLoaded', function() {
 const skillsChart = echarts.init(document.getElementById('skillsChart'));
-const skillsOption = {
-  animation: true,
-  radar: {
-    shape: 'circle',
-    indicator: [
-      { name: 'Marketing & Analytics', max: 100 },
-      { name: 'Data Analysis', max: 100 },
-      { name: 'CRM & Campaigns', max: 100 },
-      { name: 'Software & Platforms', max: 100 }
-    ],
-    axisName: {
-      color: '#475569',
-      fontSize: 13,
-      fontWeight: 'bold'
+const skillsData = [
+  { name: 'Marketing & Analytics', value: 95 },
+  { name: 'Data Analysis', value: 90 },
+  { name: 'CRM & Campaigns', value: 85 },
+  { name: 'Software & Platforms', value: 88 }
+];
+
+skillsData.forEach(skill => {
+  new Chart(document.getElementById(skill.name.replace(/ /g, '')), {
+    type: 'doughnut',
+    data: {
+      datasets: [{
+        data: [skill.value, 100 - skill.value],
+        backgroundColor: ['#2563eb', '#e2e8f0'],
+        borderWidth: 0
+      }]
     },
-    splitArea: {
-      show: true,
-      areaStyle: {
-        color: ['rgba(203,213,225,0.3)', 'rgba(148,163,184,0.3)']
-      }
-    },
-    splitLine: {
-      show: true,
-      lineStyle: {
-        color: '#94a3b8'
-      }
-    },
-    axisLine: {
-      lineStyle: {
-        color: '#94a3b8'
+    options: {
+      cutout: '80%',
+      responsive: true,
+      plugins: {
+        tooltip: { enabled: false },
+        legend: { display: false },
+        title: {
+          display: true,
+          text: skill.name,
+          color: '#475569',
+          font: { size: 14, weight: 'bold' }
+        }
       }
     }
-  },
-  series: [{
-    type: 'radar',
-    data: [{
-      value: [95, 90, 85, 88],
-      name: 'Skills',
-      symbol: 'circle',
-      symbolSize: 6,
-      lineStyle: {
-        width: 2,
-        color: '#2563eb'
-      },
-      areaStyle: {
-        color: 'rgba(37, 99, 235, 0.15)'
-      },
-      itemStyle: {
-        color: '#2563eb',
-        borderColor: '#1e40af',
-        borderWidth: 2
-      }
-    }]
-  }]
-};
+  });
+});
+
 skillsChart.setOption(skillsOption);
 window.addEventListener('resize', function() {
   skillsChart.resize();

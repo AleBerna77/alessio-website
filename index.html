@@ -638,64 +638,54 @@ body { font-family: 'Inter', sans-serif; }
 </footer>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.0/echarts.min.js"></script>
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-const skillsChart = echarts.init(document.getElementById('skillsChart'));
-const skillsData = [
-  { name: 'Marketing & Analytics', value: 95 },
-  { name: 'Data Analysis', value: 90 },
-  { name: 'CRM & Campaigns', value: 85 },
-  { name: 'Software & Platforms', value: 88 }
-];
+document.addEventListener('DOMContentLoaded', function () {
+  const skillsChart = echarts.init(document.getElementById('skillsChart'));
 
-skillsData.forEach(skill => {
-  new Chart(document.getElementById(skill.name.replace(/ /g, '')), {
-    type: 'doughnut',
-    data: {
-      datasets: [{
-        data: [skill.value, 100 - skill.value],
-        backgroundColor: ['#2563eb', '#e2e8f0'],
-        borderWidth: 0
-      }]
+  const option = {
+    tooltip: {
+      trigger: 'axis',
+      formatter: '{b}: {c}%',
     },
-    options: {
-      cutout: '80%',
-      responsive: true,
-      plugins: {
-        tooltip: { enabled: false },
-        legend: { display: false },
-        title: {
-          display: true,
-          text: skill.name,
-          color: '#475569',
-          font: { size: 14, weight: 'bold' }
-        }
+    xAxis: {
+      type: 'value',
+      max: 100,
+      axisLabel: { color: '#475569' },
+      splitLine: { show: false }
+    },
+    yAxis: {
+      type: 'category',
+      data: ['Marketing & Analytics', 'Data Analysis', 'CRM & Campaigns', 'Software & Platforms'],
+      axisLabel: {
+        color: '#475569',
+        fontSize: 13,
+        fontWeight: 'bold'
       }
-    }
+    },
+    series: [{
+      type: 'bar',
+      data: [95, 90, 85, 88],
+      itemStyle: {
+        color: function (params) {
+          const colors = ['#2563eb', '#4f46e5', '#9333ea', '#db2777'];
+          return colors[params.dataIndex];
+        },
+        barBorderRadius: [0, 8, 8, 0]
+      },
+      label: {
+        show: true,
+        position: 'right',
+        color: '#1e40af',
+        fontWeight: 'bold'
+      }
+    }]
+  };
+
+  skillsChart.setOption(option);
+  window.addEventListener('resize', function () {
+    skillsChart.resize();
   });
 });
 
-skillsChart.setOption(skillsOption);
-window.addEventListener('resize', function() {
-  skillsChart.resize();
-});
-const filterBtns = document.querySelectorAll('.filter-btn');
-const projectCards = document.querySelectorAll('.project-card');
-filterBtns.forEach(btn => {
-btn.addEventListener('click', () => {
-const filter = btn.dataset.filter;
-filterBtns.forEach(b => b.classList.remove('bg-primary', 'text-white'));
-filterBtns.forEach(b => b.classList.add('bg-gray-200', 'text-gray-700'));
-btn.classList.remove('bg-gray-200', 'text-gray-700');
-btn.classList.add('bg-primary', 'text-white');
-projectCards.forEach(card => {
-if (filter === 'all' || card.dataset.category === filter) {
-card.style.display = 'block';
-} else {
-card.style.display = 'none';
-}
-});
-});
-});
 document.querySelector('form').addEventListener('submit', function(e) {
 e.preventDefault();
 const name = document.getElementById('name').value;
